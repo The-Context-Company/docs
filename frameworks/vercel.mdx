@@ -4,7 +4,7 @@ description: "Observability for Vercel AI SDK in 10 lines of code"
 ---
 
 <Note>
-We currently only support AI SDK observability in Next.js apps. Support for other environments coming soon.
+This guide only covers Next.js apps. [Reach out to us](/support) to get set up with other environments like Node.js.
 </Note>
 
 ## Setup
@@ -22,7 +22,7 @@ npm i @contextcompany/otel @vercel/otel @opentelemetry/api
 
 ### Step 2: Add instrumentation to Next.js
 
-You'll need to add an `instrumentation.[js|ts]` file to your project, under the `app` directory. See the [Next.js Instrumentation guide](https://nextjs.org/docs/app/guides/instrumentation) for more information on instrumenting your Next.js application.
+If you haven't already, add an `instrumentation.[js|ts]` file to your project, under the `app` directory. See the [Next.js Instrumentation guide](https://nextjs.org/docs/app/guides/instrumentation) for more information on instrumenting your Next.js application.
 
 Call the `registerOTelTCC` function and provide your API key and OTLP URL. This allows your app to export
 any AI SDK related traces to The Context Company.
@@ -33,14 +33,20 @@ import { registerOTelTCC } from "@contextcompany/otel";
 export function register() {
   if (process.env.NEXT_RUNTIME === "nodejs")
     registerOTelTCC({
-      url: process.env.TCC_OTLP_URL,
       apiKey: process.env.TCC_API_KEY,
     });
 }
 ```
 
+<Note>Remember to add `TCC_API_KEY` to your environment variables.</Note>
+
+```typescript .env.local
+TCC_API_KEY="your-api-key"
+```
+
 ### Step 3: Enable telemetry for AI SDK calls
-AI SDK Telemetry is experimental and requires the `experimental_telemetry` flag to be set to `true`.
+As of AI SDK v5, telemetry is experimental and requires the `experimental_telemetry` flag to be set to `true`. Ensure you set this flag to `true` for all AI SDK calls.
+
 <CodeGroup>
 ```typescript generateText
 import { generateText } from "ai";
@@ -61,6 +67,8 @@ const result = streamText({
 ```
 
 </CodeGroup>
+
+That's it! Your app will now be instrumented and any AI SDK calls will be viewable in the dashboard.
 
 ## Usage
 
