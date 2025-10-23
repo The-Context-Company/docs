@@ -4,7 +4,7 @@ description: "Observability for Vercel AI SDK in 10 lines of code"
 ---
 
 <Note>
-This guide only covers Next.js apps. [Reach out to us](/support) to get set up with other environments like Node.js.
+  This guide only covers Next.js apps. [Reach out to us](/support) to get set up with other environments like Node.js.
 </Note>
 
 ## Setup
@@ -12,20 +12,23 @@ This guide only covers Next.js apps. [Reach out to us](/support) to get set up w
 ### Step 1: Install dependencies
 
 <CodeGroup>
+
 ```Title pnpm
 pnpm add @contextcompany/otel @vercel/otel @opentelemetry/api
 ```
+
+
 ```Title npm
 npm i @contextcompany/otel @vercel/otel @opentelemetry/api
 ```
+
 </CodeGroup>
 
 ### Step 2: Add instrumentation to Next.js
 
 If you haven't already, add an `instrumentation.[js|ts]` file to your project, under the `app` directory. See the [Next.js Instrumentation guide](https://nextjs.org/docs/app/guides/instrumentation) for more information on instrumenting your Next.js application.
 
-Call the `registerOTelTCC` function and provide your API key and OTLP URL. This allows your app to export
-any AI SDK related traces to The Context Company.
+Call the `registerOTelTCC` function and provide your API key. This allows your app to export any AI SDK related traces to The Context Company.
 
 ```typescript instrumentation.ts
 import { registerOTelTCC } from "@contextcompany/otel";
@@ -38,16 +41,20 @@ export function register() {
 }
 ```
 
-<Note>Remember to add `TCC_API_KEY` to your environment variables.</Note>
+<Note>
+  Remember to add `TCC_API_KEY` to your environment variables.
+</Note>
 
 ```typescript .env.local
 TCC_API_KEY="your-api-key"
 ```
 
 ### Step 3: Enable telemetry for AI SDK calls
+
 As of AI SDK v5, telemetry is experimental and requires the `experimental_telemetry` flag to be set to `true`. Ensure you set this flag to `true` for all AI SDK calls.
 
 <CodeGroup>
+
 ```typescript generateText
 import { generateText } from "ai";
 
@@ -56,6 +63,7 @@ const result = generateText({
   experimental_telemetry: { isEnabled: true }, // required
 });
 ```
+
 
 ```typescript streamText
 import { streamText } from "ai";
@@ -78,7 +86,7 @@ Custom metadata allows you to add additional properties to your [Agent Runs](/co
 
 This is particularly useful for tying agent runs to your own specific business logic, letting you filter and analyze agent runs by user, organization, feature, or some other dimension.
 
-Custom metadata must be passed as a key-value pair to the `metadata` object. 
+Custom metadata must be passed as a key-value pair to the `metadata` object.
 
 ```typescript route.ts
 import { openai } from "@ai-sdk/openai";
@@ -96,4 +104,4 @@ const { text } = await generateText({
 });
 ```
 
-Agent runs are automatically indexed on your custom metadata fields and are filterable in the dashboard. 
+Agent runs are automatically indexed by your custom metadata fields and can be filtered directly in the dashboard.

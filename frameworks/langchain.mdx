@@ -1,0 +1,80 @@
+---
+title: "LangChain (Python)"
+description: "Observability for LangChain in 10 lines of code"
+---
+
+## Setup
+
+### Step 1: Install dependencies
+
+<CodeGroup>
+
+```Title pip
+pip install "tcc-otel[langchain]"
+```
+
+
+```Title poetry
+poetry add "tcc-otel[langchain]"
+```
+
+</CodeGroup>
+
+### Step 2: Add instrumentation
+
+You’ll need to initialize instrumentation **before** LangChain is imported. This is typically at the top of your application’s entry point (for example, in `main.py` or `app.py`).
+
+```python main.py
+from dotenv import load_dotenv
+import os
+load_dotenv()
+
+# Import and initialize TCC instrumentation BEFORE importing LangChain
+from tcc_otel import instrument_langchain
+
+instrument_langchain(
+    api_key=os.getenv("TCC_API_KEY"),
+)
+
+# Your existing LangChain code
+from langchain_openai import ChatOpenAI
+from langchain.agents import create_openai_functions_agent, AgentExecutor
+
+model = ChatOpenAI(model="gpt-4")
+agent = create_openai_functions_agent(model, tools=[])
+executor = AgentExecutor(agent=agent, tools=[])
+```
+
+<Note>
+  Remember to add `TCC_API_KEY` to your environment variables.
+</Note>
+
+```bash .env
+TCC_API_KEY="your-api-key"
+```
+
+That's it! Your app will now be instrumented and any LangChain runs, steps, and tool calls will be viewable in the dashboard.
+
+## Usage
+
+### Adding custom metadata
+
+Custom metadata allows you to add additional properties to your [Agent Runs](/concepts#agent-runs).
+
+This is particularly useful for tying agent runs to your own specific business logic, letting you filter and analyze agent runs by user, organization, feature, or some other dimension.
+
+Custom metadata must be passed as a key-value pair through LangChain’s `RunnableConfig` as the second argument to `invoke()`:
+
+```python
+result = agent_executor.invoke(
+    {"input": "Hello!"},
+    {
+        "metadata": {
+            # e.g. tag this agent run with a user id
+            "userId": "4a6b111c-b53a-4d00-a877-67185022ab9e",
+        }
+    }
+)
+```
+
+Agent runs are automatically indexed by your custom metadata fields and can be filtered directly in the dashboard.

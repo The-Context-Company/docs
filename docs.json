@@ -18,11 +18,11 @@
         "groups": [
           {
             "group": "Getting started",
-            "pages": ["index", "concepts", "support"]
+            "pages": ["index", "concepts", "contact"]
           },
           {
             "group": "Supported frameworks",
-            "pages": ["frameworks/vercel"]
+            "pages": ["frameworks/vercel", "frameworks/langchain", "frameworks/langgraph"]
           }
         ]
       }
