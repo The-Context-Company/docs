@@ -1,5 +1,8 @@
 # The Context Company Documentation
 
+## View docs live
+http://docs.thecontext.company/
+
 ## Development
 
 Install the [Mintlify CLI](https://www.npmjs.com/package/mint) to preview your documentation changes locally. To install, use the following command:
