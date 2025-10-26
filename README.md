@@ -1,7 +1,7 @@
 # The Context Company Documentation
 
 ## View docs live
-http://docs.thecontext.company/
+https://docs.thecontext.company/
 
 ## Development
 
