@@ -3,10 +3,6 @@ title: "Concepts"
 description: "Understand the concepts behind The Context Company"
 ---
 
-## Agent sessions
-
-Agent sessions contain multiple agent runs. They're commonly thought of as entire "conversations" between a human user and an AI agent.
-
 ## Agent runs
 
 Every agent run represents a single execution of an agent, from the moment an LLM is invoked until the final response is returned.
@@ -22,3 +18,7 @@ A step represents a single request to an LLM and the result of that request. A s
 A tool call represents the actual tool function being called in your codebase and the result of that call. It includes information such as the tool name, the tool function arguments, and the result of the tool call.
 
 If a tool call is grouped under a step, it's implied that the tool call was invoked by the LLM as part of the step.
+
+## Agent sessions
+
+Agent sessions contain multiple agent runs. They're commonly thought of as entire "conversations" between a human user and an AI agent.
