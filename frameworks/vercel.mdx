@@ -162,7 +162,7 @@ app.listen(8080, () => {
 
 ### Adding custom metadata
 
-Custom metadata allows you to add additional properties to your [Agent Runs](/concepts#agent-runs).
+Custom metadata allows you to add additional properties to your [agent runs](/concepts#agent-runs).
 
 This is particularly useful for tying agent runs to your own specific business logic, letting you filter and analyze agent runs by user, organization, feature, or some other dimension.
 
@@ -185,3 +185,28 @@ const { text } = await generateText({
 ```
 
 Agent runs are automatically indexed by your custom metadata fields and can be filtered directly in the dashboard.
+
+### Tracking Agent Sessions
+
+[Agent sessions](/concepts#agent-sessions) represents multiple agent runs that are grouped together. The most common use case is tracking entire conversations between a human user and an AI agent in chatbot interfaces.
+
+Agent sessions can be tracked by setting a `tcc.sessionId` key under metadata.
+
+```typescript route.ts
+import { generateText } from "ai";
+
+const { text } = await generateText({
+  // ...
+  experimental_telemetry: {
+    isEnabled: true,
+    metadata: {
+      // use tcc.sessionId to track agent sessions
+      "tcc.sessionId": "some-session-id",
+    },
+  },
+});
+```
+
+The value of `tcc.sessionId` should be a unique identifier for the agent session. This can be any string, but it's generally recommended to use a UUID.
+
+Agent sessions are automatically indexed and can be filtered directly in the dashboard.
