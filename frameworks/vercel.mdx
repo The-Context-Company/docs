@@ -10,7 +10,7 @@ description: "Observability for Vercel AI SDK in 10 lines of code"
 <Tip>Our SDKs default to using the `TCC_API_KEY` environment variable.</Tip>
 
 ```typescript .env.local
-TCC_API_KEY="your-api-key"
+TCC_API_KEY = "your-api-key";
 ```
 
 ### Next.js API Routes
@@ -24,7 +24,6 @@ If your API calls are directly made from your Next.js API routes, you can use th
 ```Title pnpm
 pnpm add @contextcompany/otel @vercel/otel @opentelemetry/api
 ```
-
 
 ```Title npm
 npm i @contextcompany/otel @vercel/otel @opentelemetry/api
@@ -64,7 +63,6 @@ const result = generateText({
 });
 ```
 
-
 ```typescript streamText
 import { streamText } from "ai";
 
@@ -87,7 +85,6 @@ If you're using a Node.js framework (e.g. Express, Fastify, etc.), you can confi
 ```Title pnpm
 pnpm add @contextcompany/otel @opentelemetry/sdk-node
 ```
-
 
 ```Title npm
 npm i @contextcompany/otel @opentelemetry/sdk-node
@@ -115,6 +112,7 @@ export const tcc = new NodeSDK({
 Add the TCCSpanProcessor to the NodeSDK and start listening for traces with `.start()`.
 
 <CodeGroup>
+
 ```typescript Basic example
 import { generateText } from "ai";
 import { tcc } from "./tcc";
@@ -131,7 +129,6 @@ async function main() {
   await tcc.shutdown();
 }
 ```
-
 
 ```typescript Express example
 import { streamText } from "ai";
@@ -185,6 +182,51 @@ const { text } = await generateText({
 ```
 
 Agent runs are automatically indexed by your custom metadata fields and can be filtered directly in the dashboard.
+
+### Adding user feedback (thumbs up & thumbs down)
+
+User feedback allows you to collect thumbs up and thumbs down reactions from end users on your [agent runs](/concepts#agent-runs).
+
+This is useful for tracking user satisfaction, identifying problematic responses, and filtering agent runs in the dashboard to focus on positive or negative feedback.
+
+#### Step 1: Generate and pass a run ID
+
+```typescript route.ts
+import { generateText } from "ai";
+import { randomUUID } from "crypto";
+
+// Generate a unique run ID before your agent execution
+const runId = randomUUID();
+
+const { text } = await generateText({
+  // ...
+  experimental_telemetry: {
+    isEnabled: true,
+    metadata: {
+      "tcc.run_id": runId, // Pass the run ID in metadata
+    },
+  },
+});
+
+// Return the runId to your client
+return { text, runId };
+```
+
+#### Step 2: Submit feedback from your client
+
+Store the `runId` on your client, then when the user provides feedback, submit it using the `submitFeedback` function:
+
+```typescript feedback-route.ts
+import { submitFeedback } from "@contextcompany/otel";
+
+// When user clicks thumbs up/down:
+await submitFeedback({
+  runId: runId, // The run ID from your agent execution
+  score: "thumbs_up", // or "thumbs_down"
+});
+```
+
+Agent runs with feedback can be filtered in the dashboard using the feedback filter.
 
 ### Tracking Agent Sessions
 
