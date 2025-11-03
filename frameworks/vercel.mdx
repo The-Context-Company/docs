@@ -165,6 +165,33 @@ app.listen(8080, () => {
 
 ## Usage
 
+### Debug mode
+
+You can enable debug mode, which will log any spans that are created and exported.
+
+<CodeGroup>
+
+```typescript Next.js
+import { registerOTelTCC } from "@contextcompany/otel/nextjs";
+
+export function register() {
+  if (process.env.NEXT_RUNTIME === "nodejs") {
+    registerOTelTCC({ debug: true });
+  }
+}
+```
+
+```typescript Node.js
+import { TCCSpanProcessor } from "@contextcompany/otel";
+import { NodeSDK } from "@opentelemetry/sdk-node";
+
+export const tcc = new NodeSDK({
+  spanProcessors: [new TCCSpanProcessor({ debug: true })],
+});
+```
+
+</CodeGroup>
+
 ### Adding custom metadata
 
 Custom metadata allows you to add additional properties to your [agent runs](/concepts#agent-runs).
