@@ -29,9 +29,9 @@ const { text } = await generateText({
 
 Agent runs are automatically indexed by your custom metadata fields and can be filtered directly in the dashboard.
 
-## Adding user feedback (thumbs up & thumbs down)
+### Adding user feedback
 
-User feedback allows you to collect thumbs up and thumbs down reactions from end users on your [agent runs](/concepts#agent-runs).
+User feedback allows you to collect score (thumbs up & thumbs down) and text feedback (up to 2000 characters) from end users on your [agent runs](/concepts#agent-runs).
 
 This is useful for tracking user satisfaction, identifying problematic responses, and filtering agent runs in the dashboard to focus on positive or negative feedback.
 
@@ -41,7 +41,7 @@ This is useful for tracking user satisfaction, identifying problematic responses
 import { generateText } from "ai";
 import { randomUUID } from "crypto";
 
-// Generate a unique run ID before your agent execution
+// Generate a unique run ID (must be a UUID) before your agent execution
 const runId = randomUUID();
 
 const { text } = await generateText({
@@ -60,15 +60,18 @@ return { text, runId };
 
 #### Step 2: Submit feedback from your client
 
-Store the `runId` on your client, then when the user provides feedback, submit it using the `submitFeedback` function:
+Store the `runId` on your client, then when the user provides feedback, submit it using the `submitFeedback` function.
+
+Both `score` and `text` are optional, but you must provide at least one:
 
 ```typescript feedback-route.ts
 import { submitFeedback } from "@contextcompany/otel";
 
-// When user clicks thumbs up/down:
+// Submit both score and text feedback:
 await submitFeedback({
   runId: runId, // The run ID from your agent execution
-  score: "thumbs_up", // or "thumbs_down"
+  score: "thumbs_up", // Optional: "thumbs_up" or "thumbs_down"
+  text: "This was a helpful response!", // Optional: up to 2000 characters
 });
 ```
 
