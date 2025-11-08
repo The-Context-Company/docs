@@ -1,0 +1,174 @@
+---
+title: "Setup"
+description: "Setup The Context Company for Vercel AI SDK in 10 lines of code"
+---
+
+## Set TCC environment variables
+
+<Tip>Our SDKs default to using the `TCC_API_KEY` environment variable.</Tip>
+
+```typescript .env.local
+TCC_API_KEY = "your-api-key";
+```
+
+## Instrument AI SDK
+
+If your API calls are directly made from your Next.js API routes, you can use the `registerOTelTCC` function to instrument your calls.
+
+If you're using a Node.js framework (e.g. Express, Fastify, etc.), you can configure the NodeSDK directly with the TCCSpanProcessor.
+
+
+<Tabs>
+  <Tab title="Next.js">
+
+#### Step 1: Install dependencies
+
+<CodeGroup>
+
+```Title pnpm
+pnpm add @contextcompany/otel @vercel/otel @opentelemetry/api
+```
+
+```Title npm
+npm i @contextcompany/otel @vercel/otel @opentelemetry/api
+```
+
+</CodeGroup>
+
+#### Step 2: Add instrumentation to Next.js
+
+If you haven't already, add an `instrumentation.[js|ts]` file to your project, under the `app` directory. See the [Next.js Instrumentation guide](https://nextjs.org/docs/app/guides/instrumentation) for more information on instrumenting your Next.js application.
+
+Call the `registerOTelTCC` function and provide your API key. This allows your app to export any AI SDK related traces to The Context Company.
+
+```typescript instrumentation.ts
+import { registerOTelTCC } from "@contextcompany/otel/nextjs";
+
+export function register() {
+  if (process.env.NEXT_RUNTIME === "nodejs") registerOTelTCC();
+}
+```
+
+Alternatively, you can directly import `TCCSpanProcessor` for use with the `registerOTel` function from `@vercel/otel`. This is essentially the same as using `registerOTelTCC`, but allows you to pass in additional span processors.
+<Expandable title="instrumentation with TCCSpanProcessor">
+
+```typescript instrumentation.ts
+import { TCCSpanProcessor } from "@contextcompany/otel";
+import { registerOTel } from "@vercel/otel";
+
+export function register() {
+  if (process.env.NEXT_RUNTIME === "nodejs")
+    registerOTel({
+      spanProcessors: [new TCCSpanProcessor()],
+    });
+}
+```
+
+</Expandable>
+
+#### Step 3: Enable telemetry for AI SDK calls
+
+As of AI SDK v5, telemetry is experimental and requires the `experimental_telemetry` flag to be set to `true`. Ensure you set this flag to `true` for all AI SDK calls.
+
+<CodeGroup>
+
+```typescript generateText
+import { generateText } from "ai";
+
+const result = generateText({
+  // ...
+  experimental_telemetry: { isEnabled: true }, // required
+});
+```
+
+```typescript streamText
+import { streamText } from "ai";
+
+const result = streamText({
+  // ...
+  experimental_telemetry: { isEnabled: true }, // required
+});
+```
+
+</CodeGroup>
+
+</Tab>
+
+<Tab title="Node.js">
+
+#### Step 1: Install dependencies
+
+<CodeGroup>
+
+```Title pnpm
+pnpm add @contextcompany/otel @opentelemetry/sdk-node @opentelemetry/api
+```
+
+```Title npm
+npm i @contextcompany/otel @opentelemetry/sdk-node @opentelemetry/api
+```
+
+</CodeGroup>
+
+#### Step 2: Add TCCSpanProcessor to NodeSDK
+
+If you don't already have a NodeSDK instance, we recommend creating one and keeping it in a `tcc.ts` file.
+
+```typescript tcc.ts
+import { TCCSpanProcessor } from "@contextcompany/otel";
+import { NodeSDK } from "@opentelemetry/sdk-node";
+
+export const tcc = new NodeSDK({
+  spanProcessors: [new TCCSpanProcessor()],
+});
+```
+
+#### Step 3: Start the OpenTelemetry NodeSDK
+
+Add the TCCSpanProcessor to the NodeSDK and start listening for traces with `.start()`.
+
+<CodeGroup>
+
+```typescript Basic example
+import { generateText } from "ai";
+import { tcc } from "./tcc";
+
+// Start listening for traces
+tcc.start();
+
+async function main() {
+  const result = await generateText({
+    // ...
+    experimental_telemetry: { isEnabled: true }, // required
+  });
+}
+```
+
+```typescript Express example
+import { streamText } from "ai";
+import express, { Request, Response } from "express";
+import { tcc } from "./tcc";
+
+const app = express();
+
+// Start listening for traces
+tcc.start();
+
+app.post("/", async (req: Request, res: Response) => {
+  const result = streamText({
+    // ...
+    experimental_telemetry: { isEnabled: true }, // required
+  });
+  result.pipeUIMessageStreamToResponse(res);
+});
+
+app.listen(8080, () => {
+  console.log(`Server listening on port ${8080}`);
+});
+```
+
+</CodeGroup>
+
+</Tab>
+
+</Tabs>

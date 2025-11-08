@@ -22,7 +22,18 @@
           },
           {
             "group": "Supported frameworks",
-            "pages": ["frameworks/vercel", "frameworks/langchain", "frameworks/langgraph"]
+            "pages": [
+              {
+                "group": "Vercel AI SDK",
+                "pages": [
+                  "frameworks/ai-sdk/setup",
+                  "frameworks/ai-sdk/usage",
+                  "frameworks/ai-sdk/local"
+                ]
+              },
+              "frameworks/langchain",
+              "frameworks/langgraph"
+            ]
           }
         ]
       }
@@ -50,5 +61,11 @@
   },
   "fonts": {
     "family": "Poppins"
-  }
+  },
+  "redirects": [
+    {
+      "source": "/frameworks/vercel",
+      "destination": "/frameworks/ai-sdk/setup"
+    }
+  ]
 }
