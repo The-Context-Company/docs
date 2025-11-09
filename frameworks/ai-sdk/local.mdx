@@ -54,11 +54,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* add TCC script: */}
         <script
           crossOrigin="anonymous"
           src="//unpkg.com/@contextcompany/widget/dist/auto.global.js"
         />
-        {/* other scripts */}
       </head>
       <body>{children}</body>
     </html>
