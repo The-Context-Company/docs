@@ -12,29 +12,24 @@
   },
   "favicon": "/favicon.ico",
   "navigation": {
-    "tabs": [
+    "groups": [
       {
-        "tab": "Guides",
-        "groups": [
+        "group": "Getting started",
+        "pages": ["index", "concepts", "environments", "contact"]
+      },
+      {
+        "group": "Supported frameworks",
+        "pages": [
           {
-            "group": "Getting started",
-            "pages": ["index", "concepts", "contact"]
-          },
-          {
-            "group": "Supported frameworks",
+            "group": "Vercel AI SDK",
             "pages": [
-              {
-                "group": "Vercel AI SDK",
-                "pages": [
-                  "frameworks/ai-sdk/setup",
-                  "frameworks/ai-sdk/usage",
-                  "frameworks/ai-sdk/local"
-                ]
-              },
-              "frameworks/langchain",
-              "frameworks/langgraph"
+              "frameworks/ai-sdk/setup",
+              "frameworks/ai-sdk/usage",
+              "frameworks/ai-sdk/local"
             ]
-          }
+          },
+          "frameworks/langchain",
+          "frameworks/langgraph"
         ]
       }
     ]
@@ -56,7 +51,8 @@
   "footer": {
     "socials": {
       "x": "https://x.com/thecontextco",
-      "linkedin": "https://www.linkedin.com/company/the-context-company"
+      "linkedin": "https://www.linkedin.com/company/the-context-company",
+      "github": "https://github.com/The-Context-Company"
     }
   },
   "fonts": {

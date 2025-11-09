@@ -6,8 +6,9 @@ description: "Local-first observability for Vercel AI SDK on Next.js"
 ## Overview
 Local mode allows you to run The Context Company in a local-first mode. This is [100% open-source](https://github.com/The-Context-Company/observatory) and requires **no account or API key**.
 
-This is particularly useful for development and testing purposes. However, we also offer a **free, cloud-hosted development environment** for all users.
+We also offer a [free, cloud development environment](/environments#development-cloud-hosted) for all users.
 
+<img src="https://github.com/The-Context-Company/observatory/raw/main/.github/assets/local.gif" alt="Local mode demonstration" />
 
 ## Setup
 
@@ -91,3 +92,11 @@ const result = streamText({
 ```
 
 </CodeGroup>
+
+## Anonymous Telemetry
+
+By default, The Context Company collects limited anonymous usage data when running local mode. This helps us understand how developers use the tool and guides us in improving it.
+
+**No sensitive or personally identifiable information is ever collected.** You can view exactly which events and values are tracked [here](https://github.com/The-Context-Company/observatory/blob/main/packages/otel/src/nextjs/telemetry/events.ts).
+
+To disable anonymous telemetry, set the `TCC_DISABLE_ANONYMOUS_TELEMETRY` environment variable to `true` in your Next.js project.
