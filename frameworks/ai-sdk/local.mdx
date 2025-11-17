@@ -47,6 +47,8 @@ export function register() {
 Add the Local Mode widget to the root layout of your Next.js application.
 
 ```tsx app/layout.tsx
+import Script from "next/script";
+
 export default function RootLayout({
   children,
 }: {
@@ -56,7 +58,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         {/* add TCC script: */}
-        <script
+        <Script
           crossOrigin="anonymous"
           src="//unpkg.com/@contextcompany/widget/dist/auto.global.js"
         />
