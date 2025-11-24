@@ -1,0 +1,43 @@
+---
+title: "Setup"
+description: "Setup The Context Company for Claude Agent SDK in 2 lines of code"
+---
+
+## Set TCC environment variables
+
+<Tip>Our SDKs default to using the `TCC_API_KEY` environment variable.</Tip>
+
+```typescript .env.local
+TCC_API_KEY="your-api-key"
+```
+
+## Instrument Claude Agent SDK
+
+#### Step 1: Install dependencies
+
+<CodeGroup>
+
+```Title pnpm
+pnpm add @contextcompany/claude @anthropic-ai/claude-agent-sdk
+```
+
+```Title npm
+npm i @contextcompany/claude @anthropic-ai/claude-agent-sdk
+```
+
+</CodeGroup>
+
+#### Step 2: Add instrumentation to your agent
+
+Import the `instrumentClaudeAgent` function and use it to wrap the Claude Agent SDK. This allows your app to export all agent-related traces to The Context Company.
+
+```typescript agent.ts
+import { instrumentClaudeAgent } from "@contextcompany/claude";
+import * as claudeSDK from "@anthropic-ai/claude-agent-sdk";
+
+const { query, tool, createSdkMcpServer } = instrumentClaudeAgent(claudeSDK);
+
+// Now use query, tool, and createSdkMcpServer as you normally would
+```
+
+That's it! All your agent runs will now be automatically tracked in The Context Company.

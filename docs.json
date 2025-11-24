@@ -28,6 +28,13 @@
               "frameworks/ai-sdk/local"
             ]
           },
+          {
+            "group": "Claude Agent SDK",
+            "pages": [
+              "frameworks/claude-agent-sdk/setup",
+              "frameworks/claude-agent-sdk/usage"
+            ]
+          },
           "frameworks/langchain",
           "frameworks/langgraph"
         ]
