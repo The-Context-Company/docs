@@ -35,6 +35,13 @@
               "frameworks/claude-agent-sdk/usage"
             ]
           },
+          {
+            "group": "Mastra",
+            "pages": [
+              "frameworks/mastra/setup",
+              "frameworks/mastra/usage"
+            ]
+          },
           "frameworks/langchain",
           "frameworks/langgraph"
         ]

@@ -1,0 +1,53 @@
+---
+title: "Setup"
+description: "Setup The Context Company for Mastra in 10 lines of code"
+---
+
+## Set TCC environment variables
+
+<Tip>Our SDKs default to using the `TCC_API_KEY` environment variable.</Tip>
+
+```typescript .env.local
+TCC_API_KEY="your-api-key"
+```
+
+## Instrument Mastra
+
+#### Step 1: Install dependencies
+
+<CodeGroup>
+
+```Title pnpm
+pnpm add @contextcompany/mastra
+```
+
+```Title npm
+npm i @contextcompany/mastra
+```
+
+</CodeGroup>
+
+#### Step 2: Add instrumentation to your Mastra instance
+
+Import the `TCCMastraExporter` and add it to your Mastra configuration's observability exporters. This allows your app to export all agent-related traces to The Context Company.
+
+```typescript mastra.ts
+import { Mastra } from "@mastra/core/mastra";
+import { exampleAgent } from "./agents/example-agent";
+import { TCCMastraExporter } from "@contextcompany/mastra";
+
+// Initialize Mastra with TCC observability exporter
+export const mastra = new Mastra({
+  agents: { exampleAgent },
+  observability: {
+    configs: {
+      otel: {
+        serviceName: "mastra-weather-agent",
+        exporters: [new TCCMastraExporter({})],
+      },
+    },
+  },
+});
+```
+
+That's it! Your app will now be instrumented and any Mastra agent runs, steps, and tool calls will be viewable in the dashboard.

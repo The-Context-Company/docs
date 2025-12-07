@@ -1,0 +1,131 @@
+---
+title: "Usage"
+description: "Using The Context Company with Mastra in 10 lines of code"
+---
+
+## Adding custom metadata
+
+Custom metadata allows you to add additional properties to your [agent runs](/concepts#agent-runs).
+
+This is particularly useful for tying agent runs to your own specific business logic, letting you filter and analyze agent runs by user, organization, feature, or some other dimension.
+
+Custom metadata must be passed as a key-value pair to the `metadata` object within `tracingOptions`.
+
+```typescript agent.ts
+await agent.stream(
+  // ...
+  {
+    // Pass metadata to track and filter this execution
+    tracingOptions: {
+      metadata: {
+        // e.g. tag this agent run with a user id
+        userId: "4a6b111c-b53a-4d00-a877-67185022ab9e",
+        customMetadata1: "1234567890",
+        customMetadata2: "context is key",
+      },
+    },
+  }
+);
+```
+
+Agent runs are automatically indexed by your custom metadata fields and can be filtered directly in the dashboard.
+
+### Adding user feedback
+
+User feedback allows you to collect score (thumbs up & thumbs down) and text feedback (up to 2000 characters) from end users on your [agent runs](/concepts#agent-runs).
+
+This is useful for tracking user satisfaction, identifying problematic responses, and filtering agent runs in the dashboard to focus on positive or negative feedback.
+
+#### Step 1: Generate and pass a run ID
+
+```typescript agent.ts
+import { randomUUID } from "crypto";
+
+// Generate a unique run ID (must be a UUID) before your agent execution
+const runId = randomUUID();
+
+const response = await agent.stream(
+  // ...
+  {
+    tracingOptions: {
+      metadata: {
+        "tcc.runId": runId, // Pass the run ID in metadata
+      },
+    },
+  }
+);
+
+// Return the runId to your client
+return { response, runId };
+```
+
+#### Step 2: Submit feedback from your client
+
+Store the `runId` on your client, then when the user provides feedback, submit it using the `submitFeedback` function.
+
+Both `score` and `text` are optional, but you must provide at least one:
+
+```typescript feedback-route.ts
+import { submitFeedback } from "@contextcompany/mastra";
+
+// Submit both score and text feedback:
+await submitFeedback({
+  runId: runId, // The run ID from your agent execution
+  score: "thumbs_up", // Optional: "thumbs_up" or "thumbs_down"
+  text: "This was a helpful response!", // Optional: up to 2000 characters
+});
+```
+
+Agent runs with feedback can be filtered in the dashboard using the feedback filter.
+
+## Tracking Agent Sessions
+
+[Agent sessions](/concepts#agent-sessions) represents multiple agent runs that are grouped together. The most common use case is tracking entire conversations between a human user and an AI agent in chatbot interfaces.
+
+Agent sessions can be tracked by setting a `tcc.sessionId` key under metadata.
+
+```typescript agent.ts
+const sessionId = "unique-session-identifier";
+
+await agent.stream(
+  // ...
+  {
+    tracingOptions: {
+      metadata: {
+        "tcc.sessionId": sessionId, // Track agent sessions
+      },
+    },
+  }
+);
+```
+
+The value of `tcc.sessionId` should be a unique identifier for the agent session. This can be any string, but it's generally recommended to use a UUID.
+
+Agent sessions are automatically indexed and can be filtered directly in the dashboard.
+
+
+## Debug mode
+
+You can enable debug mode, which will log any spans that are created and exported.
+
+```typescript mastra.ts
+import { Mastra } from "@mastra/core/mastra";
+import { exampleAgent } from "./agents/example-agent";
+import { TCCMastraExporter } from "@contextcompany/mastra";
+
+export const mastra = new Mastra({
+  agents: { exampleAgent },
+  observability: {
+    configs: {
+      otel: {
+        serviceName: "mastra-weather-agent",
+        exporters: [new TCCMastraExporter({ debug: true })], // Add debug: true here
+      },
+    },
+  },
+});
+```
+
+## Examples
+
+See our [examples repository](https://github.com/The-Context-Company/examples) for more detailed usage examples.
