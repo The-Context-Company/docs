@@ -3,23 +3,14 @@
   "theme": "linden",
   "name": "The Context Company",
   "colors": {
-    "primary": {
-      "gradient": {
-        "from": "#197ef7",
-        "to": "#9333ea"
-      }
-    },
-    "light": {
-      "gradient": {
-        "from": "#197ef7",
-        "to": "#9333ea"
-      }
-    },
-    "dark": {
-      "gradient": {
-        "from": "#197ef7",
-        "to": "#9333ea"
-      }
+    "primary": "#197ef7",
+    "light": "#197ef7",
+    "dark": "#197ef7"
+  },
+  "styling": {
+    "gradient": {
+      "from": "#197ef7",
+      "to": "#9333ea"
     }
   },
   "appearance": {
