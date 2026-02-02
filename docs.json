@@ -7,6 +7,12 @@
     "light": "#E86B39",
     "dark": "#F07A4A"
   },
+  "styling": {
+    "gradient": {
+      "from": "#197ef7",
+      "to": "#9333ea"
+    }
+  },
   "appearance": {
     "default": "light"
   },
