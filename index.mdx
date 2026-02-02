@@ -1,36 +1,71 @@
 ---
 title: "Introduction"
+description: "Monitor AI agents and understand user behavior"
 ---
 
 ## What is The Context Company?
 
-The Context Company is an observability platform for AI agents.
+The Context Company helps teams understand user behavior and monitor AI agents at scale.
 
-We extend traditional observability to uncover **silent and semantic** failures that standard monitoring platforms miss.
+### Understand User Behavior
 
-## Key Features
+See where users get confused, frustrated, or stuck so your team can improve your AI with confidence.
 
-- **Aggregate observability**: Large-scale metrics on latency, costs, and tool calls.
-- **Detailed traces**: Deeply understand every agent run's execution flow and reasoning.
-- **Silent failure detection**: Identify bad tool calls, hallucinations, death loops, and more.
-- **Easy integration**: Full integration within ten lines of code.
+### User Intent Detection
 
-## Get Started
+Find user pain points in your AI Agents. Detect when users are frustrated, confused, or unhappy with the AI agent.
 
-We currently support the [Vercel AI SDK](https://ai-sdk.dev/), [Claude Agent SDK](https://docs.anthropic.com/en/docs/agents/), [Mastra](https://mastra.ai/), [LangChain](https://www.langchain.com), and [LangGraph](https://www.langgraph.com). More frameworks coming soon.
+### Silent Failure Detection
+
+Be alerted when your AI Agent silently fails. Standard monitoring misses the failures that matter most. We catch them all.
+
+- **Bad Tool Calls**: Wrong arguments, wrong timing, wrong results.
+- **Infinite Loops**: Same call, over and over, burning tokens and upsetting users.
+- **Hallucinations**: Fabricated details presented as facts, leading to user confusion.
+
+### Topic Clustering
+
+See what users actually ask about. Stop reading through every conversation to find out what users are asking about.
+
+- Auto-discovered topic clusters
+- Track trending issues before they escalate
+
+### User Feedback Analysis
+
+Every thumbs up and thumbs down, analyzed. We analyze every user vote and feedback to identify what your agent does well and where it needs work.
+
+### Custom Pattern Monitoring
+
+Track patterns that matter to your business. Define custom signals like competitor mentions, compliance phrases, and escalation keywords. We'll watch for them across every conversation.
+
+### Alerts & Reports
+
+Get notified when it matters. Real-time alerts for critical issues. Weekly digests with trends and recommendations. Delivered to Slack, email, or wherever your team lives.
+
+- **Instant Alerts**: Failure spikes, unusual patterns, or custom thresholds
+- **Weekly Reports**: Trends, top issues, and actionable recommendations
+
+## Technical Metrics
+
+Tokens, latency, and cost tracking. Understand which models perform best, how long they take, and how much they cost.
+
+## Quick Setup
+
+5 lines of code to production. Drop-in observability without modifying your agent logic.
+
 
 <Card title="Vercel AI SDK" icon="rocket" horizontal href="/frameworks/vercel">
-  Get started with the Vercel AI SDK on Next.js or Node.js.
+  Next.js or Node.js
 </Card>
 <Card title="Claude Agent SDK" icon="rocket" horizontal href="/frameworks/claude-agent-sdk/setup">
-  Get started with the Claude Agent SDK on TypeScript.
+  TypeScript
 </Card>
 <Card title="Mastra" icon="rocket" horizontal href="/frameworks/mastra/setup">
-  Get started with Mastra on TypeScript.
+  TypeScript
 </Card>
 <Card title="LangChain" icon="rocket" horizontal href="/frameworks/langchain">
-  Get started with LangChain on Python.
+  Python
 </Card>
 <Card title="LangGraph" icon="rocket" horizontal href="/frameworks/langgraph">
-  Get started with LangGraph on Python.
+  Python
 </Card>

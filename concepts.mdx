@@ -1,24 +1,50 @@
 ---
 title: "Concepts"
-description: "Understand the concepts behind The Context Company"
+description: "Core concepts for understanding AI agent observability with The Context Company"
 ---
 
-## Agent runs
+The Context Company provides semantic observability for AI agents. Understanding these core concepts will help you get the most out of the platform.
 
-Every agent run represents a single execution of an agent, from the moment an LLM is invoked until the final response is returned.
+## Agent Runs
 
-An agent run does not necessarily correspond to a single request to an LLM. It may include multiple text generations, tool calls, or other events.
+An **agent run** represents a single execution of an agent, from the moment an LLM is invoked until the final response is returned.
+
+An agent run may include multiple text generations, tool calls, or other events. It doesn't necessarily correspond to a single LLM request. Each run is analyzed for silent failures like hallucinations, bad tool calls, and infinite loops.
 
 ## Steps
 
-A step represents a single request to an LLM and the result of that request. A step may only contain a single text generation, but can contain multiple tool calls.
+A **step** represents a single request to an LLM and the result of that request. While a step may only contain a single text generation, it can include multiple tool calls.
 
-## Tool calls
+Steps help you understand the reasoning flow within an agent run, making it easier to pinpoint exactly where failures occur.
 
-A tool call represents the actual tool function being called in your codebase and the result of that call. It includes information such as the tool name, the tool function arguments, and the result of the tool call.
+## Tool Calls
 
-If a tool call is grouped under a step, it's implied that the tool call was invoked by the LLM as part of the step.
+A **tool call** represents a tool function being executed in your codebase and its result. Tool call data includes:
 
-## Agent sessions
+- The tool name
+- The function arguments passed
+- The result returned
+- Whether the call succeeded or failed
 
-Agent sessions contain multiple agent runs. They're commonly thought of as entire "conversations" between a human user and an AI agent.
+When a tool call is grouped under a step, it indicates the LLM invoked that tool as part of its reasoning process. The Context Company automatically detects common tool call failures like incorrect arguments, unnecessary calls, and repeated invocations.
+
+## Agent Sessions
+
+**Agent sessions** group multiple agent runs together. They typically represent an entire conversation between a human user and an AI agent.
+
+Sessions enable you to:
+- Track user journeys across multiple interactions
+- Analyze conversation-level patterns and issues
+- Understand how user frustration builds over time
+- Measure session-level success metrics
+
+## Silent Failures
+
+Unlike traditional errors that throw exceptions, **silent failures** are semantic issues that occur without any visible error. Common silent failures include:
+
+- **Bad tool calls**: Wrong arguments, wrong timing, or unnecessary invocations
+- **Hallucinations**: Fabricated information presented as fact
+- **Infinite loops**: Repeated identical calls that burn tokens and frustrate users
+- **User confusion**: Responses that don't address what the user actually asked
+
+The Context Company automatically detects these failures across all your agent runs.

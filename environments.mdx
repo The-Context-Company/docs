@@ -1,25 +1,42 @@
 ---
 title: "Environments"
-description: "How to use The Context Company in different environments"
+description: "Deploy AI agent observability across production, development, and local environments"
 ---
 
 <img src="images/environments.png" alt="Screenshot of environments" />
 
-## Production (cloud-hosted)
+The Context Company supports multiple environments to fit your development workflow—from local debugging to production monitoring.
 
-The cloud production environment is intended for production use. It is a fully-featured environment that allows you to monitor and observe your production applications. Features include:
-- **Detailed traces**: Deeply understand every agent run's execution flow, reasoning, steps, and tool calls.
-- **Search, filter, sort**: Search across all of your agent runs, steps, and tool calls, filter by custom metadata, and sort by any field.
-- **Score and text feedback**: Collect score (thumbs up & thumbs down) and text feedback (up to 2000 characters) from end users.
-- **Agent sessions**: Group related agent runs into agent sessions, such as "conversations" between a human user and an AI agent.
-- **Aggregate observability**: Large-scale metrics on all of your agent runs, including latency, costs, scores, tool calls, and more.
+## Production (Cloud-Hosted)
 
-## Development (cloud-hosted)
+The production environment provides full-featured observability for your live AI agents. Monitor real user interactions, detect silent failures at scale, and get alerts when issues arise.
 
-Every user gets their own private, cloud-hosted development environment. This is great for staging and debugging purposes during development.
+**Production features include:**
 
-To use dev mode, simply set the `TCC_API_KEY` environment variable to your user-level API key that begins with `dev_` and switch to the development environment in the [dashboard](https://www.thecontext.company/dev/runs).
+- **Detailed traces**: Understand every agent run's execution flow, reasoning steps, and tool calls
+- **Silent failure detection**: Automatic detection of hallucinations, bad tool calls, infinite loops, and user frustration
+- **Search, filter, and sort**: Query across all agent runs, steps, and tool calls with custom metadata filtering
+- **User feedback collection**: Capture thumbs up/down ratings and text feedback from end users
+- **Agent sessions**: Group related runs into sessions to track full user conversations
+- **Aggregate metrics**: Dashboard views of latency, costs, token usage, success rates, and failure trends
+- **Alerts and reports**: Real-time notifications for failure spikes and weekly trend digests
 
-## Local mode for Next.js + AI SDK
+## Development (Cloud-Hosted)
 
-[Local mode](/frameworks/ai-sdk/local) is a local-first development environment that lets you run The Context Company locally within your Next.js app.
+Every user gets a private, cloud-hosted development environment for staging and debugging. Test your integrations and explore traces before shipping to production.
+
+To use dev mode:
+
+1. Set the `TCC_API_KEY` environment variable to your user-level API key (begins with `dev_`)
+2. Switch to the development environment in the [dashboard](https://www.thecontext.company/dev/runs)
+
+Development environments are isolated—your staging data never mixes with production.
+
+## Local Mode (Next.js + AI SDK)
+
+[Local mode](/frameworks/ai-sdk/local) provides a local-first development experience for rapid iteration. Run The Context Company directly within your Next.js app. No cloud connection required.
+
+Local mode is ideal for:
+- Offline development and debugging
+- Fast iteration on agent logic
+- Inspecting traces in real-time during development
