@@ -3,12 +3,17 @@
   "theme": "linden",
   "name": "The Context Company",
   "colors": {
-    "primary": "#E86B39",
-    "light": "#E86B39",
-    "dark": "#F07A4A"
+    "primary": "#f97316",
+    "light": "#f97316",
+    "dark": "#f97316"
   },
   "appearance": {
     "default": "light"
+  },
+  "background": {
+    "color": {
+      "light": "#FFFFFF"
+    }
   },
   "favicon": "/favicon.ico",
   "navigation": {
